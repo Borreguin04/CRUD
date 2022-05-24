@@ -9,9 +9,6 @@ from threading import Thread
 
 
 class Client(Thread):
-    """
-    Servidor eco - reenvía todo lo recibido.
-    """
     
     def __init__(self, conn, addr):
         # Inicializar clase padre.

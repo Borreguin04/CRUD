@@ -7,7 +7,7 @@
 from socket import socket
 import os
 def menudatos():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    #os.system('clear') # NOTA para windows tienes que cambiar clear por cls
     print("Selecciona una opción:")
     print("\n 1 - Crear un dato")
     print("\n 2 - Leer datos")
@@ -21,6 +21,7 @@ def menuarchivos():
     print("\n 1-Ford")
     print("\n 2-Nissan")
     print("\n 3-Honda")
+    print("\n 4-Cualquier tecla para salir")
 
 # Compatibilidad con Python 3
 try:
@@ -34,8 +35,31 @@ def main():
     s.connect(("localhost", 6030))
     
     while True:
-        menuarchivos()
-        output_data = raw_input("> ")
+
+        while True:
+            # solicituamos una opción al usuario
+            menuarchivos()
+            opcionMenu = input("inserta un numero valor >> ")
+            if opcionMenu == "1":
+                print("Abriendo Archivo 1(Ford):")
+                menudatos()
+                output_data = raw_input("> ") #enviar datos aun no se usa
+
+            elif opcionMenu == "2":
+                print("Abriendo archuvo 2 (Honda)")
+                menudatos()
+                output_data = raw_input("> ") #enviar datos aun no se usa
+
+            elif opcionMenu == "3":
+                print("Abriendo archivo (Nissan)")
+                menudatos()
+                output_data = raw_input("> ") #enviar datos aun no se usa
+
+
+            else:
+                print("Opción Invalida... Saliendo.")
+                break
+
         
         if output_data:
             # Enviar entrada. Comptabilidad con Python 3.

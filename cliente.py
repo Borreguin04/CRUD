@@ -5,7 +5,22 @@
 #
 
 from socket import socket
+import os
+def menudatos():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    print("Selecciona una opción:")
+    print("\n 1 - Crear un dato")
+    print("\n 2 - Leer datos")
+    print("\n 3 - Actualizar dato")
+    print("\n 4 - Borrar dato")
+    print("\n 9 - salir")
 
+def menuarchivos():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    print("\n Seleciona un archivo:")
+    print("\n 1-Ford")
+    print("\n 2-Nissan")
+    print("\n 3-Honda")
 
 # Compatibilidad con Python 3
 try:
@@ -19,6 +34,7 @@ def main():
     s.connect(("localhost", 6030))
     
     while True:
+        menuarchivos()
         output_data = raw_input("> ")
         
         if output_data:

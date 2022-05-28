@@ -3,48 +3,73 @@
 #
 #      tcpserver.py
 #
+import socket
 
-from socket import socket, error
-from threading import Thread
+host = "localhost" # Esta función nos da el nombre de la máquina
+port = 6030
+BUFFER_SIZE = 1024 # Usamos un número pequeño para tener una respuesta rápida 
 
+'''Los objetos socket soportan el context manager type
+así que podemos usarlo con una sentencia with, no hay necesidad
+de llamar a socket_close()
+'''
+# Creamos un objeto socket tipo TCP
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket_tcp:
 
-class Client(Thread):
-    
-    def __init__(self, conn, addr):
-        # Inicializar clase padre.
-        Thread.__init__(self)
-        
-        self.conn = conn
-        self.addr = addr
-    
-    def run(self):
+    socket_tcp.bind((host, port)) 
+    socket_tcp.listen(5) # Esperamos la conexión del cliente 
+    conn, addr = socket_tcp.accept() # Establecemos la conexión con el cliente 
+    with conn:
+        print('[*] Conexión establecida') 
         while True:
-            try:
-                # Recibir datos del cliente.
-                input_data = self.conn.recv(1024)
-            except error:
-                print("[%s] Error de lectura." % self.name)
+            # Recibimos bytes, convertimos en str
+            data = conn.recv(BUFFER_SIZE)
+            # Verificamos que hemos recibido datos
+            if not data:
                 break
             else:
-                # Reenviar la información recibida.
-                if input_data:
-                    self.conn.send(input_data)
+                print('[*] Datos recibidos: {}'.format(data.decode('utf-8'))) 
+            #conn.send(data) # Hacemos echo convirtiendo de nuevo a bytes
 
+                if data.decode('utf-8') == "1":
+                    archivo = open("ford.txt","r")
+                    opcion = conn.recv(BUFFER_SIZE)
+                    if opcion.decode('utf-8') == "1":
+                        print("agregar dato xd")
+                    if opcion.decode('utf-8') == "2":
+                        array = archivo.readline()
+                        print(archivo.readlines())
+                        conn.send(array.encode())
+                    if opcion.decode('utf-8') == "3":
+                        print("actualizar dato xd")
 
-def main():
-    print("Servidor en Linea")
-    s = socket()
-    
-    # Escuchar peticiones en el puerto 6030.
-    s.bind(("localhost", 6030))
-    s.listen(0)
-    
-    while True:
-        conn, addr = s.accept()
-        c = Client(conn, addr)
-        c.start()
-        print("%s:%d se ha conectado." % addr)
+                    if opcion.decode('utf-8') == "4":
+                        print("borrar dato xd")
 
+                if data.decode('utf-8') == "2":
+                    archivo = open("nissan.txt","r")
+                    opcion = conn.recv(BUFFER_SIZE)
+                    if opcion.decode('utf-8') == "1":
+                        print("crear dato xd")
+                    if opcion.decode('utf-8') == "2":
+                        array = archivo.readline()
+                        print(archivo.readlines())
+                        conn.send(array.encode())
+                    if opcion.decode('utf-8') == "3":
+                        print("actulizar dato xd")
+                    if opcion.decode('utf-8') == "4":
+                        print("borrar dato xd")
 
-if __name__ == "__main__":
-    main()
+                if data.decode('utf-8') == "3":
+                    archivo = open("honda.txt","r")
+                    opcion = conn.recv(BUFFER_SIZE)
+                    if opcion.decode('utf-8') == "1":
+                        print("agregar dato xd")
+                    if opcion.decode('utf-8') == "2":
+                        array = archivo.readline()
+                        print(archivo.readlines())
+                        conn.send(array.encode())
+                    if opcion.decode('utf-8') == "3":
+                        print("actulizar dato xd")
+                    if opcion.decode('utf-8') == "4":
+                        print("borrar dato xd")
